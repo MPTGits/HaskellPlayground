@@ -137,3 +137,21 @@ addDefault val [] = [val]
 addDefault val l  = l
 
 sumMinFix fl xl = foldr1 (+) (map (\f -> foldr1 min (addDefault 0 [x | x<- xl, (f x) == x])) fl)
+
+--State Exam 10.09.2018
+
+
+selectList l1 l2 = if (length l1) >= (length l2) then l1 else l2
+
+
+sumMaxRoots f ll = foldr (+) 0 (foldl selectList [] (map (\l ->[x | x<-l, (f x) == 0]) ll))
+
+--State Exam 2019.07.09
+
+recommended basket bestFit products =
+    filter
+    (\product -> (findPrice product <= basketCost) && (not (elem product basket)))
+    (map bestFit basket)
+        where
+            findPrice product = [snd x | x<-products, (fst x) == product] !! 0
+            basketCost = sum $ map findPrice basket
