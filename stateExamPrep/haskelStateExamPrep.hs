@@ -155,3 +155,16 @@ recommended basket bestFit products =
         where
             findPrice product = [snd x | x<-products, (fst x) == product] !! 0
             basketCost = sum $ map findPrice basket
+
+
+--State Exam 2019.09.10
+
+addIfNew x l = [el | el<-x, (not (elem el l))] ++ l
+
+annotate db annotators = map (\(item, labels) -> (item, foldr addIfNew labels (map (\annotator -> (annotator item)) annotators))) db
+
+db = [("scheme", [("typing", "dynamic"), ("evaluation", "strict")]), ("haskell", [("typing", "static")]), ("c++", [])]
+evaluation "scheme" = [("evaluation", "strict"), ("macros", "true")]
+evaluation "haskell" = [("evaluation", "lazy")]
+evaluation "c++" = evaluation "scheme"
+purity lang = if lang == "haskell" then [("pure", "true")] else []
